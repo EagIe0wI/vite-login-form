@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const SecondStep = () => {
+const SecondStep = ({ setStep }) => {
 	const [userInput, setUserInput] = useState("");
 	const [hasErrors, setErrors] = useState({
 		input: false,
@@ -23,20 +23,31 @@ const SecondStep = () => {
 		return !newErrors.input;
 	};
 
+	const changeStep = () => {
+		console.log("back to 1 step");
+		setStep({
+			first: true,
+			second: false,
+		});
+	};
+
 	const submitForm = (e) => {
 		e.preventDefault();
 		if (!validateErrors()) {
 			console.log("unsubmited step 2");
 			return;
 		}
-		// перенаправить на 1 форму
-		// addTask(userInput, passwordInput);
+		setStep({
+			first: true,
+			second: false,
+		});
 		setUserInput("");
 		console.log("submited step 2");
 	};
 
 	return (
 		<form onSubmit={submitForm}>
+			<button onClick={changeStep}>Back</button>
 			<p>Two-Factor Authentication</p>
 			<input type="text" value={userInput} placeholder="Code" onChange={handlInput} />
 		</form>

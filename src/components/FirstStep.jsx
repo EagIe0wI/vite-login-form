@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const FirstStep = () => {
+const FirstStep = ({ setStep }) => {
 	const [emailInput, setEmailInput] = useState("");
 	const [passwordInput, setPasswordInput] = useState("");
 	const [hasErrors, setErrors] = useState({
@@ -40,6 +40,10 @@ const FirstStep = () => {
 		}
 		// перенаправить на след форму
 		// addTask(emailInput, passwordInput);
+		setStep({
+			first: false,
+			second: true,
+		});
 		setEmailInput("");
 		setPasswordInput("");
 		console.log("submited step 1");
