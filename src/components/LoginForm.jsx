@@ -3,6 +3,10 @@ import { useState } from "react";
 const LoginForm = () => {
 	const [emailInput, setEmailInput] = useState("");
 	const [passwordInput, setPasswordInput] = useState("");
+	const [hasErrors, setErrors] = useState({
+		email: false,
+		password: false,
+	});
 
 	const handleEmailInput = (e) => {
 		setEmailInput(e.target.value);
@@ -12,11 +16,29 @@ const LoginForm = () => {
 		setPasswordInput(e.target.value);
 	};
 
+	const validateErrors = () => {
+		const newErrors = {
+			email: false,
+			password: false,
+		};
+
+		if (emailInput.length == 0) {
+			newErrors.email = true;
+		}
+		if (passwordInput.length == 0) {
+			newErrors.password = true;
+		}
+		setErrors(newErrors);
+		return !newErrors.email && !newErrors.password;
+	};
+
 	const submitForm = (e) => {
 		e.preventDefault();
+		if (!validateErrors()) return;
 		// addTask(emailInput, passwordInput);
 		setEmailInput("");
 		setPasswordInput("");
+		console.log("submited");
 	};
 
 	return (
