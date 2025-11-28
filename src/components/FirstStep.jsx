@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { loginApi } from "../api/auth";
 
 const FirstStep = ({ setStep }) => {
 	const [emailInput, setEmailInput] = useState("");
@@ -42,19 +43,27 @@ const FirstStep = ({ setStep }) => {
 		return newErrors.email || newErrors.password;
 	};
 
-	const submitForm = (e) => {
+	const submitForm = async (e) => {
 		e.preventDefault();
-		if (validateErrors()) {
-			console.log("unsubmited step 1");
+		// const data = await loginApi(emailInput, passwordInput);
+
+		try {
+			await loginApi(emailInput, passwordInput);
+		} catch (e) {
+			console.log(e);
+			throw e;
+		}
+
+		if (!validateErrors()) {
+			// перенаправление на след форму
+			setStep("second");
+			console.log("submited step 1");
+
+			setEmailInput("");
+			setPasswordInput("");
 			return;
 		}
-		// перенаправление на след форму
-		setStep("second");
-		console.log("submited step 1");
-		console.log(emailInput, passwordInput);
-
-		setEmailInput("");
-		setPasswordInput("");
+		console.log("unsubmited step 1");
 	};
 
 	return (
@@ -65,14 +74,16 @@ const FirstStep = ({ setStep }) => {
 				value={emailInput}
 				placeholder="Email"
 				onChange={handleEmailInput}
-				className={hasErrors.input ? "error" : ""}
+				// выделение поля при ошибке
+				// className={hasErrors.input ? "error" : ""}
 			/>
 			<input
 				type="text"
 				value={passwordInput}
 				placeholder="Password"
 				onChange={handlePasswordInput}
-				className={hasErrors.input ? "error" : ""}
+				// выделение поля при ошибке
+				// className={hasErrors.input ? "error" : ""}
 			/>
 			<input type="submit" value="Log in" />
 		</form>
