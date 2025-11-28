@@ -17,17 +17,26 @@ const FirstStep = ({ setStep }) => {
 	};
 
 	const validateErrors = () => {
+		const EMAIL_REGEXP =
+			/^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
+		const PASSWORD_REGEXP =
+			/(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g;
+
 		const newErrors = {
 			email: false,
 			password: false,
 		};
 
-		if (emailInput.length == 0) {
+		// валидация поля email
+		if (emailInput.length == 0 || EMAIL_REGEXP.test(emailInput)) {
 			newErrors.email = true;
 		}
-		if (passwordInput.length == 0) {
+
+		// валидация поля password
+		if (passwordInput.length < 6 || PASSWORD_REGEXP.test(passwordInput)) {
 			newErrors.password = true;
 		}
+
 		setErrors(newErrors);
 		return !newErrors.email && !newErrors.password;
 	};
@@ -38,26 +47,31 @@ const FirstStep = ({ setStep }) => {
 			console.log("unsubmited step 1");
 			return;
 		}
-		// перенаправить на след форму
-		// addTask(emailInput, passwordInput);
-		setStep({
-			first: false,
-			second: true,
-		});
+		// перенаправление на след форму
+		setStep("second");
+		console.log("submited step 1");
+		console.log(emailInput, passwordInput);
+
 		setEmailInput("");
 		setPasswordInput("");
-		console.log("submited step 1");
 	};
 
 	return (
 		<form onSubmit={submitForm}>
 			<p>Sing in to continue</p>
-			<input type="text" value={emailInput} placeholder="Email" onChange={handleEmailInput} />
+			<input
+				type="text"
+				value={emailInput}
+				placeholder="Email"
+				onChange={handleEmailInput}
+				className={hasErrors.input ? "error" : ""}
+			/>
 			<input
 				type="text"
 				value={passwordInput}
 				placeholder="Password"
 				onChange={handlePasswordInput}
+				className={hasErrors.input ? "error" : ""}
 			/>
 			<input type="submit" value="Log in" />
 		</form>

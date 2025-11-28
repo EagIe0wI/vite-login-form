@@ -25,10 +25,7 @@ const SecondStep = ({ setStep }) => {
 
 	const changeStep = () => {
 		console.log("back to 1 step");
-		setStep({
-			first: true,
-			second: false,
-		});
+		setStep("first");
 	};
 
 	const submitForm = (e) => {
@@ -37,10 +34,7 @@ const SecondStep = ({ setStep }) => {
 			console.log("unsubmited step 2");
 			return;
 		}
-		setStep({
-			first: true,
-			second: false,
-		});
+		setStep("first");
 		setUserInput("");
 		console.log("submited step 2");
 	};

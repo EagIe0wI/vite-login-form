@@ -3,15 +3,12 @@ import SecondStep from "./SecondStep";
 import { useState } from "react";
 
 const LoginForm = () => {
-	const [whatStepIs, setStep] = useState({
-		first: true,
-		second: false,
-	});
+	const [whatStepIs, setStep] = useState("first");
 
 	return (
 		<>
-			{whatStepIs.first && <FirstStep setStep={setStep}></FirstStep>}
-			{whatStepIs.second && <SecondStep setStep={setStep}></SecondStep>}
+			{whatStepIs == "first" && <FirstStep setStep={setStep}></FirstStep>}
+			{whatStepIs == "second" && <SecondStep setStep={setStep}></SecondStep>}
 		</>
 	);
 };
