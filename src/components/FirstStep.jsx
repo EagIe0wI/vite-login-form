@@ -17,8 +17,7 @@ const FirstStep = ({ setStep }) => {
 	};
 
 	const validateErrors = () => {
-		const EMAIL_REGEXP =
-			/^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
+		const EMAIL_REGEXP = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 		const PASSWORD_REGEXP =
 			/(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g;
 
@@ -28,7 +27,7 @@ const FirstStep = ({ setStep }) => {
 		};
 
 		// валидация поля email
-		if (emailInput.length == 0 || EMAIL_REGEXP.test(emailInput)) {
+		if (!EMAIL_REGEXP.test(emailInput)) {
 			newErrors.email = true;
 		}
 
@@ -38,12 +37,14 @@ const FirstStep = ({ setStep }) => {
 		}
 
 		setErrors(newErrors);
-		return !newErrors.email && !newErrors.password;
+		console.log(newErrors);
+
+		return newErrors.email || newErrors.password;
 	};
 
 	const submitForm = (e) => {
 		e.preventDefault();
-		if (!validateErrors()) {
+		if (validateErrors()) {
 			console.log("unsubmited step 1");
 			return;
 		}
